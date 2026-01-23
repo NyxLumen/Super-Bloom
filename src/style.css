@@ -1,9 +1,14 @@
-/* --- 1. CONFIG & RESET --- */
+/* =========================================
+   1. CONFIG & RESET
+   ========================================= */
 :root {
 	--bg-color: #050505;
 	--text-color: #ffffff;
-	--accent-acid: #ccff00;
-	--accent-pink: #ff0099;
+
+	/* FAR CRY NEW DAWN PALETTE */
+	--accent-pink: #ff0099; /* Radioactive Pink (Backgrounds only now) */
+	--accent-acid: #ccff00; /* Mutated Green */
+	--accent-cyan: #00ffff; /* Neon Cyan */
 }
 
 * {
@@ -16,11 +21,100 @@ body {
 	background-color: var(--bg-color);
 	color: var(--text-color);
 	font-family: "Inter", sans-serif;
-	overflow-x: hidden; /* Prevent horizontal scrollbar from animations */
+	overflow-x: hidden;
 }
 
-/* --- 2. LOKI FONTS & HERO --- */
-/* Font Classes for random swapping */
+/* FILM GRAIN OVERLAY */
+.noise-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 900;
+	pointer-events: none;
+	opacity: 0.05;
+	background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+}
+
+/* =========================================
+   2. NAVIGATION (Frosted Glass)
+   ========================================= */
+.nav-header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1000;
+	padding: 20px 0;
+	background: rgba(0, 0, 0, 0.4);
+	backdrop-filter: blur(12px);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.nav-container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.nav-logo {
+	font-family: "Syne", sans-serif;
+	font-weight: 800;
+	font-size: 1.5rem;
+	color: white;
+	text-decoration: none;
+	letter-spacing: -1px;
+}
+
+.accent-text {
+	color: var(--accent-pink);
+}
+
+.nav-links {
+	display: flex;
+	gap: 30px;
+	list-style: none;
+	align-items: center;
+}
+
+.nav-links a {
+	color: white;
+	text-decoration: none;
+	font-family: "Inter", sans-serif;
+	font-size: 0.9rem;
+	font-weight: 700;
+	letter-spacing: 1px;
+	transition: color 0.3s;
+}
+
+.nav-links a:hover {
+	color: var(--accent-acid);
+}
+
+.btn-ticket {
+	padding: 10px 24px;
+	background: white;
+	color: black !important;
+	border-radius: 2px;
+	font-weight: 900 !important;
+	text-transform: uppercase;
+	transition:
+		transform 0.2s,
+		background 0.2s;
+}
+
+.btn-ticket:hover {
+	transform: scale(1.05) rotate(-2deg);
+	background: var(--accent-acid);
+}
+
+/* =========================================
+   3. HERO SECTION (Stabilized Layout)
+   ========================================= */
 .font-1 {
 	font-family: "Abril Fatface", cursive;
 }
@@ -45,10 +139,14 @@ body {
 
 .hero-loki {
 	height: 100vh;
+	height: 100dvh;
+	width: 100%;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	flex-direction: column;
+	position: relative;
+	overflow: hidden;
 }
 
 .loki-text {
@@ -57,6 +155,9 @@ body {
 	line-height: 1;
 	display: flex;
 	gap: 0.2rem;
+	justify-content: center;
+	width: 100%;
+	margin-bottom: 10px;
 	user-select: none;
 }
 
@@ -68,13 +169,94 @@ body {
 }
 
 .hero-sub {
-	margin-top: 20px;
+	width: 100%;
+	text-align: center;
 	letter-spacing: 4px;
 	color: var(--accent-acid);
-	font-weight: bold;
+	font-weight: 800;
+	font-family: "Syne", sans-serif;
+	text-transform: uppercase;
 }
 
-/* --- 3. MINOR ARTISTS (Infinite Scroll) --- */
+/* =========================================
+   4. COUNTDOWN (Compact Industrial)
+   ========================================= */
+.countdown {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+
+	margin-top: 50px;
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+
+	/* Container Background */
+	background: var(--accent-pink);
+	padding: 15px 30px;
+
+	border: 3px solid white;
+	transform: skewX(-10deg) rotate(-2deg);
+
+	/* Shadow: Black + Acid Green (No Pink) */
+	box-shadow:
+		8px 8px 0px black,
+		8px 8px 0px 3px var(--accent-acid);
+}
+
+.time-block {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-width: 50px;
+	transform: skewX(10deg);
+}
+
+.time-digit {
+	font-family: "Chakra Petch", sans-serif;
+	font-weight: 700;
+	font-size: 2rem;
+	line-height: 0.9;
+	color: white;
+	font-variant-numeric: tabular-nums;
+	text-shadow: 2px 2px 0px black;
+}
+
+.time-label {
+	font-family: "Chakra Petch", sans-serif;
+	font-size: 0.6rem;
+	font-weight: 700;
+	color: black;
+	background: var(--accent-acid);
+	padding: 1px 5px;
+	margin-top: 5px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	box-shadow: 2px 2px 0px black;
+}
+
+.separator {
+	font-family: "Chakra Petch", sans-serif;
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: rgba(0, 0, 0, 0.3);
+	margin-top: -15px;
+	transform: skewX(10deg);
+}
+
+.countdown:hover {
+	transform: skewX(-10deg) rotate(-2deg) translate(3px, 3px);
+	box-shadow:
+		4px 4px 0px black,
+		4px 4px 0px 3px var(--accent-acid);
+	transition: all 0.1s ease;
+	cursor: default;
+}
+
+/* =========================================
+   5. MINOR ARTISTS (Infinite Scroll)
+   ========================================= */
 .minor-section {
 	width: 100%;
 	overflow: hidden;
@@ -86,17 +268,17 @@ body {
 .marquee-track {
 	display: flex;
 	gap: 40px;
-	width: max-content; /* Critical for scrolling */
-	padding-left: 40px; /* Initial offset */
+	width: max-content;
+	padding-left: 40px;
 }
 
 .minor-card {
-	width: 280px; /* Fixed width */
-	aspect-ratio: 3 / 4; /* Portrait shape */
+	width: 280px;
+	aspect-ratio: 3 / 4;
 	position: relative;
-	border-radius: 16px;
+	border-radius: 12px;
 	overflow: hidden;
-	flex-shrink: 0; /* CRITICAL: Prevents squashing */
+	flex-shrink: 0;
 	cursor: pointer;
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 	transition: transform 0.3s;
@@ -105,6 +287,8 @@ body {
 .minor-card:hover {
 	transform: scale(1.05);
 	z-index: 10;
+	/* Clean white glow instead of pink */
+	box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 .minor-card img {
@@ -112,6 +296,7 @@ body {
 	height: 100%;
 	object-fit: cover;
 	transition: transform 0.6s;
+	/* REMOVED GRAYSCALE FILTER - FULL COLOR ALWAYS */
 }
 
 .minor-card:hover img {
@@ -142,12 +327,14 @@ body {
 	font-family: "Inter", sans-serif;
 	font-size: 0.8rem;
 	color: var(--accent-acid);
-	font-weight: 600;
+	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 1px;
 }
 
-/* --- 4. HEADLINERS (Cinematic Video Cards) --- */
+/* =========================================
+   6. HEADLINERS (Cinematic Video Cards)
+   ========================================= */
 .headliner-section {
 	padding: 100px 0;
 }
@@ -159,18 +346,20 @@ body {
 }
 
 .section-title {
-	font-family: "Syne", sans-serif;
-	font-size: 3rem;
-	margin-bottom: 60px;
+	font-family: "Black Ops One", system-ui;
+	font-size: 4rem;
+	margin-bottom: 80px;
 	text-align: center;
 	color: white;
 	text-transform: uppercase;
+	/* Clean black shadow instead of pink */
+	text-shadow: 5px 5px 0px black;
 }
 
 .headliner-grid {
 	display: flex;
 	flex-direction: column;
-	gap: 120px; /* Space between big cards */
+	gap: 120px;
 }
 
 .headliner-card {
@@ -184,6 +373,7 @@ body {
 	justify-content: center;
 	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
 	background: #000;
+	border: 1px solid #333;
 }
 
 .headliner-bg-video {
@@ -198,7 +388,7 @@ body {
 }
 
 .headliner-card:hover .headliner-bg-video {
-	opacity: 0.7; /* Brighten on hover */
+	opacity: 0.8;
 }
 
 .headliner-content {
@@ -215,105 +405,41 @@ body {
 	width: 220px;
 	height: 220px;
 	border-radius: 50%;
-	border: 4px solid white;
+	border: 5px solid white;
 	object-fit: cover;
-	box-shadow: 0 0 40px rgba(255, 0, 153, 0.3);
+	/* Clean white glow instead of pink */
+	box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
 }
 
 .headliner-name {
 	font-family: "Orbitron", sans-serif;
 	font-size: clamp(2rem, 5vw, 5rem);
 	margin: 0;
-	text-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+	text-shadow: 0 0 30px black;
 	color: white;
 	font-weight: 900;
 }
-/* --- NAVIGATION (Frosted Glass) --- */
-.nav-header {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	z-index: 1000;
-	padding: 20px 0;
-	background: rgba(0, 0, 0, 0.3); /* Low opacity black */
-	backdrop-filter: blur(10px); /* THE BLUR MAGIC */
-	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-	transition: transform 0.3s;
-}
 
-.nav-container {
-	max-width: 1200px; /* Match your other containers */
-	margin: 0 auto;
-	padding: 0 20px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-
-.nav-logo {
-	font-family: "Syne", sans-serif;
-	font-weight: 800;
-	font-size: 1.5rem;
-	color: white;
-	text-decoration: none;
-	letter-spacing: -1px;
-}
-
-.accent-text {
-	color: var(--accent-acid);
-}
-
-.nav-links {
-	display: flex;
-	gap: 30px;
-	list-style: none;
-	align-items: center;
-}
-
-.nav-links a {
-	color: white;
-	text-decoration: none;
-	font-family: "Inter", sans-serif;
-	font-size: 0.9rem;
-	font-weight: 600;
-	letter-spacing: 1px;
-	transition: color 0.3s;
-}
-
-.nav-links a:hover {
-	color: var(--accent-pink);
-}
-
-/* The "Buy" Button */
-.btn-ticket {
-	padding: 10px 24px;
-	background: white;
-	color: black !important;
-	border-radius: 30px;
-	font-weight: 800 !important;
-	transition: transform 0.2s;
-}
-
-.btn-ticket:hover {
-	transform: scale(1.05);
-	background: var(--accent-acid);
-}
+/* =========================================
+   7. FOOTER
+   ========================================= */
 .site-footer {
 	padding: 100px 20px 50px;
 	text-align: center;
 	border-top: 1px solid #222;
+	background: #000;
 }
 
 .footer-text {
-	font-family: "Orbitron", sans-serif;
+	font-family: "Black Ops One", system-ui;
 	font-size: clamp(2rem, 8vw, 6rem);
 	margin-bottom: 50px;
+	color: white;
 }
 
 .footer-outline {
 	color: transparent;
-	-webkit-text-stroke: 1px var(--accent-pink);
+	-webkit-text-stroke: 2px white; /* Clean white stroke */
 }
 
 .footer-meta {
@@ -322,6 +448,8 @@ body {
 	max-width: 1200px;
 	margin: 0 auto;
 	font-family: "Inter", sans-serif;
-	color: #555;
+	color: #666;
 	font-size: 0.8rem;
+	font-weight: 600;
+	text-transform: uppercase;
 }

@@ -118,3 +118,34 @@ gsap.utils.toArray(".headliner-card").forEach((card) => {
 });
 
 console.log("🌸 SUPER BLOOM: SYSTEM ONLINE");
+
+// --- 4. COUNTDOWN TIMER ---
+const targetDate = new Date("December 31, 2026 00:00:00").getTime();
+
+const updateTimer = () => {
+	const now = new Date().getTime();
+	const distance = targetDate - now;
+
+	// Time calculations
+	const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+	const hours = Math.floor(
+		(distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+	);
+	const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+	const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+	// Helper to add leading zeros (e.g. "9" -> "09")
+	const format = (num) => (num < 10 ? `0${num}` : num);
+
+	// Inject into DOM (Check if elements exist first)
+	if (document.getElementById("days")) {
+		document.getElementById("days").innerText = days;
+		document.getElementById("hours").innerText = format(hours);
+		document.getElementById("minutes").innerText = format(minutes);
+		document.getElementById("seconds").innerText = format(seconds);
+	}
+};
+
+// Run immediately, then every second
+setInterval(updateTimer, 1000);
+updateTimer();
