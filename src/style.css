@@ -1,18 +1,26 @@
+/* --- 1. CONFIG & RESET --- */
 :root {
 	--bg-color: #050505;
 	--text-color: #ffffff;
-	--spotify-green: #1db954;
+	--accent-acid: #ccff00;
+	--accent-pink: #ff0099;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 body {
 	background-color: var(--bg-color);
 	color: var(--text-color);
 	font-family: "Inter", sans-serif;
-	margin: 0;
-	overflow-x: hidden;
+	overflow-x: hidden; /* Prevent horizontal scrollbar from animations */
 }
 
-/* --- THE LOKI FONTS --- */
+/* --- 2. LOKI FONTS & HERO --- */
+/* Font Classes for random swapping */
 .font-1 {
 	font-family: "Abril Fatface", cursive;
 }
@@ -35,7 +43,6 @@ body {
 	font-family: "VT323", monospace;
 }
 
-/* HERO SECTION */
 .hero-loki {
 	height: 100vh;
 	display: flex;
@@ -49,7 +56,8 @@ body {
 	text-align: center;
 	line-height: 1;
 	display: flex;
-	gap: 0.5rem;
+	gap: 0.2rem;
+	user-select: none;
 }
 
 .char {
@@ -59,83 +67,164 @@ body {
 	text-align: center;
 }
 
-/* ARTIST SECTION */
-.artist-showcase {
+.hero-sub {
+	margin-top: 20px;
+	letter-spacing: 4px;
+	color: var(--accent-acid);
+	font-weight: bold;
+}
+
+/* --- 3. MINOR ARTISTS (Infinite Scroll) --- */
+.minor-section {
+	width: 100%;
+	overflow: hidden;
+	padding: 100px 0;
+	background: #080808;
+	border-bottom: 1px solid #222;
+}
+
+.marquee-track {
+	display: flex;
+	gap: 40px;
+	width: max-content; /* Critical for scrolling */
+	padding-left: 40px; /* Initial offset */
+}
+
+.minor-card {
+	width: 280px; /* Fixed width */
+	aspect-ratio: 3 / 4; /* Portrait shape */
+	position: relative;
+	border-radius: 16px;
+	overflow: hidden;
+	flex-shrink: 0; /* CRITICAL: Prevents squashing */
+	cursor: pointer;
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+	transition: transform 0.3s;
+}
+
+.minor-card:hover {
+	transform: scale(1.05);
+	z-index: 10;
+}
+
+.minor-card img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.6s;
+}
+
+.minor-card:hover img {
+	transform: scale(1.1);
+}
+
+.minor-overlay {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	padding: 20px;
+	background: linear-gradient(to top, rgba(0, 0, 0, 0.95), transparent);
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.minor-name {
+	font-family: "Syne", sans-serif;
+	font-size: 1.5rem;
+	font-weight: 800;
+	color: white;
+	line-height: 1;
+}
+
+.minor-genre {
+	font-family: "Inter", sans-serif;
+	font-size: 0.8rem;
+	color: var(--accent-acid);
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+/* --- 4. HEADLINERS (Cinematic Video Cards) --- */
+.headliner-section {
+	padding: 100px 0;
+}
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+.section-title {
+	font-family: "Syne", sans-serif;
+	font-size: 3rem;
+	margin-bottom: 60px;
+	text-align: center;
+	color: white;
+	text-transform: uppercase;
+}
+
+.headliner-grid {
+	display: flex;
+	flex-direction: column;
+	gap: 120px; /* Space between big cards */
+}
+
+.headliner-card {
 	position: relative;
 	width: 100%;
-	height: 80vh; /* Tall cinematic section */
-	border-radius: 20px;
+	height: 70vh;
+	border-radius: 24px;
 	overflow: hidden;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-top: 50px;
+	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+	background: #000;
 }
 
-/* 1. Background Video */
-.video-bg-wrapper {
+.headliner-bg-video {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 1;
-}
-
-.video-bg {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	opacity: 0.5;
+	transition: opacity 0.5s;
 }
 
-.video-overlay {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.6); /* Dim the video by 60% */
+.headliner-card:hover .headliner-bg-video {
+	opacity: 0.7; /* Brighten on hover */
 }
 
-/* 2. Content */
-.artist-content {
+.headliner-content {
 	position: relative;
-	z-index: 2; /* Sit on top of video */
+	z-index: 2;
 	text-align: center;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 20px;
+	gap: 25px;
 }
 
-.artist-portrait {
-	width: 250px;
-	height: 250px;
-	border-radius: 50%; /* Circle profile pic */
-	border: 4px solid var(--text-color);
+.headliner-portrait {
+	width: 220px;
+	height: 220px;
+	border-radius: 50%;
+	border: 4px solid white;
 	object-fit: cover;
-	box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 0 40px rgba(255, 0, 153, 0.3);
 }
 
-.artist-name {
+.headliner-name {
 	font-family: "Orbitron", sans-serif;
-	font-size: 4rem;
+	font-size: clamp(2rem, 5vw, 5rem);
 	margin: 0;
-	text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-}
-
-.btn-spotify {
-	background: var(--spotify-green);
+	text-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
 	color: white;
-	border: none;
-	padding: 15px 40px;
-	border-radius: 30px;
-	font-weight: bold;
-	font-size: 1.2rem;
-	cursor: pointer;
-	transition: transform 0.2s;
-}
-
-.btn-spotify:hover {
-	transform: scale(1.05);
+	font-weight: 900;
 }
