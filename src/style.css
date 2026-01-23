@@ -453,3 +453,116 @@ body {
 	font-weight: 600;
 	text-transform: uppercase;
 }
+/* =========================================
+   MISSION BRIEFING (The Context)
+   ========================================= */
+.mission-section {
+	padding: 100px 0;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	background: #050505;
+}
+
+.mission-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr; /* Split 50/50 */
+	gap: 60px;
+	align-items: center;
+}
+
+/* Left Side: Big Typography */
+.mission-title {
+	font-family: "Syne", sans-serif;
+	font-weight: 800;
+	font-size: clamp(3rem, 5vw, 5rem);
+	line-height: 0.9;
+	color: white;
+}
+
+.outline-text {
+	color: transparent;
+	-webkit-text-stroke: 1px white; /* Hollow text effect */
+}
+
+/* Right Side: Text & Data */
+.mission-bio {
+	font-family: "Inter", sans-serif;
+	font-size: 1.1rem;
+	line-height: 1.6;
+	color: #aaa;
+	margin-bottom: 40px;
+	max-width: 500px;
+}
+
+.mission-stats {
+	display: flex;
+	gap: 50px;
+	border-top: 1px solid #333;
+	padding-top: 30px;
+}
+
+.stat-item {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.stat-value {
+	font-family: "Chakra Petch", sans-serif; /* Tech font */
+	font-size: 2.5rem;
+	font-weight: 700;
+	color: white;
+	line-height: 1;
+}
+
+.stat-label {
+	font-family: "Inter", sans-serif;
+	font-size: 0.75rem;
+	font-weight: 700;
+	color: var(--accent-acid); /* The pop color */
+	letter-spacing: 2px;
+}
+
+/* Responsive Fix for Mobile */
+@media (max-width: 768px) {
+	.mission-grid {
+		grid-template-columns: 1fr; /* Stack vertically */
+		gap: 40px;
+	}
+
+	.mission-stats {
+		gap: 30px;
+		justify-content: space-between;
+	}
+}
+
+/* =========================================
+   HYPE SECTION (Transition)
+   ========================================= */
+.hype-section {
+	padding: 100px 0;
+	background: #050505;
+	/* No border-bottom here, let it flow into the black headliner section */
+}
+
+/* OVERRIDE: Flip the color accent for this section to CYAN */
+.hype-section .stat-label {
+	color: var(--accent-cyan);
+}
+
+/* OVERRIDE: Flip the Outline Text color */
+.hype-section .outline-text {
+	-webkit-text-stroke: 1px white;
+}
+
+/* Responsive Grid Adjustments */
+@media (min-width: 769px) {
+	/* On Desktop, text is Right, Content is Left */
+	.hype-grid-layout {
+		direction: rtl; /* FLIPS the grid columns order */
+	}
+
+	/* Reset text direction inside the columns so words read normally */
+	.hype-grid-layout > * {
+		direction: ltr;
+	}
+}

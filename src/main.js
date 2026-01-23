@@ -49,6 +49,13 @@ gsap.from(".hero-sub", {
 	delay: 0.5,
 	ease: "power3.out",
 });
+gsap.from(".countdown", {
+	y: 20,
+	opacity: 0,
+	duration: 1,
+	delay: 1.5,
+	ease: "power3.out",
+});
 
 // --- 2. MINOR ARTISTS (Infinite Scroll Loop) ---
 const minorTrack = document.getElementById("minor-track");
@@ -103,7 +110,30 @@ if (headlinerGrid) {
 		.join("");
 }
 
-// GSAP: Animate Headliner Content on Scroll
+gsap.from(".mission-section .mission-grid", {
+	y: 50,
+	opacity: 0,
+	duration: 1,
+	ease: "power2.out",
+	scrollTrigger: {
+		trigger: ".mission-section",
+		start: "top 80%",
+	},
+});
+
+// 2. Hype Section (Only target the grid inside hype-section)
+gsap.from(".hype-section .mission-grid", {
+	y: 50,
+	opacity: 0,
+	duration: 1,
+	ease: "power2.out",
+	scrollTrigger: {
+		trigger: ".hype-section",
+		start: "top 80%",
+	},
+});
+
+// 3. Headliners
 gsap.utils.toArray(".headliner-card").forEach((card) => {
 	gsap.from(card.querySelector(".headliner-content"), {
 		y: 100,
@@ -112,7 +142,7 @@ gsap.utils.toArray(".headliner-card").forEach((card) => {
 		ease: "power2.out",
 		scrollTrigger: {
 			trigger: card,
-			start: "top 75%", // Animation starts when card is 75% down the viewport
+			start: "top 75%",
 		},
 	});
 });
