@@ -228,3 +228,100 @@ body {
 	color: white;
 	font-weight: 900;
 }
+/* --- NAVIGATION (Frosted Glass) --- */
+.nav-header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1000;
+	padding: 20px 0;
+	background: rgba(0, 0, 0, 0.3); /* Low opacity black */
+	backdrop-filter: blur(10px); /* THE BLUR MAGIC */
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	transition: transform 0.3s;
+}
+
+.nav-container {
+	max-width: 1200px; /* Match your other containers */
+	margin: 0 auto;
+	padding: 0 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.nav-logo {
+	font-family: "Syne", sans-serif;
+	font-weight: 800;
+	font-size: 1.5rem;
+	color: white;
+	text-decoration: none;
+	letter-spacing: -1px;
+}
+
+.accent-text {
+	color: var(--accent-acid);
+}
+
+.nav-links {
+	display: flex;
+	gap: 30px;
+	list-style: none;
+	align-items: center;
+}
+
+.nav-links a {
+	color: white;
+	text-decoration: none;
+	font-family: "Inter", sans-serif;
+	font-size: 0.9rem;
+	font-weight: 600;
+	letter-spacing: 1px;
+	transition: color 0.3s;
+}
+
+.nav-links a:hover {
+	color: var(--accent-pink);
+}
+
+/* The "Buy" Button */
+.btn-ticket {
+	padding: 10px 24px;
+	background: white;
+	color: black !important;
+	border-radius: 30px;
+	font-weight: 800 !important;
+	transition: transform 0.2s;
+}
+
+.btn-ticket:hover {
+	transform: scale(1.05);
+	background: var(--accent-acid);
+}
+.site-footer {
+	padding: 100px 20px 50px;
+	text-align: center;
+	border-top: 1px solid #222;
+}
+
+.footer-text {
+	font-family: "Orbitron", sans-serif;
+	font-size: clamp(2rem, 8vw, 6rem);
+	margin-bottom: 50px;
+}
+
+.footer-outline {
+	color: transparent;
+	-webkit-text-stroke: 1px var(--accent-pink);
+}
+
+.footer-meta {
+	display: flex;
+	justify-content: space-between;
+	max-width: 1200px;
+	margin: 0 auto;
+	font-family: "Inter", sans-serif;
+	color: #555;
+	font-size: 0.8rem;
+}
