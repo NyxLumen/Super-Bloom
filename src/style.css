@@ -1,0 +1,141 @@
+:root {
+	--bg-color: #050505;
+	--text-color: #ffffff;
+	--spotify-green: #1db954;
+}
+
+body {
+	background-color: var(--bg-color);
+	color: var(--text-color);
+	font-family: "Inter", sans-serif;
+	margin: 0;
+	overflow-x: hidden;
+}
+
+/* --- THE LOKI FONTS --- */
+.font-1 {
+	font-family: "Abril Fatface", cursive;
+}
+.font-2 {
+	font-family: "Bangers", system-ui;
+}
+.font-3 {
+	font-family: "Cinzel", serif;
+}
+.font-4 {
+	font-family: "Creepster", system-ui;
+}
+.font-5 {
+	font-family: "Dancing Script", cursive;
+}
+.font-6 {
+	font-family: "Orbitron", sans-serif;
+}
+.font-7 {
+	font-family: "VT323", monospace;
+}
+
+/* HERO SECTION */
+.hero-loki {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.loki-text {
+	font-size: clamp(3rem, 15vw, 12rem);
+	text-align: center;
+	line-height: 1;
+	display: flex;
+	gap: 0.5rem;
+}
+
+.char {
+	display: inline-block;
+	transition: font-family 0.1s;
+	min-width: 0.6em;
+	text-align: center;
+}
+
+/* ARTIST SECTION */
+.artist-showcase {
+	position: relative;
+	width: 100%;
+	height: 80vh; /* Tall cinematic section */
+	border-radius: 20px;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 50px;
+}
+
+/* 1. Background Video */
+.video-bg-wrapper {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+}
+
+.video-bg {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.video-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.6); /* Dim the video by 60% */
+}
+
+/* 2. Content */
+.artist-content {
+	position: relative;
+	z-index: 2; /* Sit on top of video */
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+}
+
+.artist-portrait {
+	width: 250px;
+	height: 250px;
+	border-radius: 50%; /* Circle profile pic */
+	border: 4px solid var(--text-color);
+	object-fit: cover;
+	box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.artist-name {
+	font-family: "Orbitron", sans-serif;
+	font-size: 4rem;
+	margin: 0;
+	text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.btn-spotify {
+	background: var(--spotify-green);
+	color: white;
+	border: none;
+	padding: 15px 40px;
+	border-radius: 30px;
+	font-weight: bold;
+	font-size: 1.2rem;
+	cursor: pointer;
+	transition: transform 0.2s;
+}
+
+.btn-spotify:hover {
+	transform: scale(1.05);
+}

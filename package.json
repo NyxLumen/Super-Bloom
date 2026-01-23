@@ -1,0 +1,28 @@
+{
+	"name": "super-bloom",
+	"version": "1.0.0",
+	"description": "> **\"Sweet. Sound. Chaos.\"**",
+	"main": "index.js",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/NyxLumen/Super-Bloom.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/NyxLumen/Super-Bloom/issues"
+	},
+	"homepage": "https://github.com/NyxLumen/Super-Bloom#readme",
+	"devDependencies": {
+		"vite": "^7.3.1"
+	},
+	"dependencies": {
+		"gsap": "^3.14.2"
+	}
+}
