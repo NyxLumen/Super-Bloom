@@ -394,6 +394,128 @@ body {
 	font-weight: 900;
 }
 
+.signup-section {
+	padding: 100px 20px;
+	background: var(--bg-color);
+	border-top: 1px solid #222;
+}
+
+.signup-wrapper {
+	max-width: 800px;
+	margin: 0 auto;
+	text-align: center;
+	border: 1px solid #333;
+	padding: 60px 40px;
+	background: radial-gradient(circle at center, #111 0%, #000 100%);
+	box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+	position: relative;
+	overflow: hidden;
+}
+
+.signup-wrapper::before,
+.signup-wrapper::after {
+	content: "";
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	border: 2px solid var(--accent-pink);
+	transition: all 0.3s;
+}
+
+.signup-wrapper::before {
+	top: 0;
+	left: 0;
+	border-right: none;
+	border-bottom: none;
+}
+.signup-wrapper::after {
+	bottom: 0;
+	right: 0;
+	border-left: none;
+	border-top: none;
+}
+
+.signup-wrapper:hover::before,
+.signup-wrapper:hover::after {
+	width: 100%;
+	height: 100%;
+	opacity: 0.2;
+}
+
+.signup-bio {
+	font-family: "Inter", sans-serif;
+	color: #888;
+	margin-bottom: 40px;
+	font-size: 1.1rem;
+	line-height: 1.6;
+}
+
+.signup-form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+}
+
+.input-group {
+	display: flex;
+	width: 100%;
+	max-width: 500px;
+	gap: 10px;
+}
+
+.signup-input {
+	flex: 1;
+	background: transparent;
+	border: 1px solid #444;
+	padding: 15px 20px;
+	color: white;
+	font-family: "Chakra Petch", sans-serif;
+	font-size: 1rem;
+	outline: none;
+	transition:
+		border-color 0.3s,
+		box-shadow 0.3s;
+}
+
+.signup-input:focus {
+	border-color: var(--accent-acid);
+	box-shadow: 0 0 15px rgba(204, 255, 0, 0.1);
+}
+
+.btn-submit {
+	padding: 15px 30px;
+	background: var(--accent-acid);
+	color: black;
+	border: none;
+	font-family: "Chakra Petch", sans-serif;
+	font-weight: 700;
+	cursor: pointer;
+	text-transform: uppercase;
+	transition:
+		transform 0.2s,
+		background 0.3s;
+}
+
+.btn-submit:hover {
+	background: white;
+	transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+	.input-group {
+		flex-direction: column;
+	}
+
+	.btn-submit {
+		width: 100%;
+	}
+
+	.signup-wrapper {
+		padding: 40px 20px;
+	}
+}
+
 .site-footer {
 	padding: 100px 20px 50px;
 	text-align: center;

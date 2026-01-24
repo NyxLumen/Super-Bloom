@@ -172,3 +172,26 @@ const updateTimer = () => {
 
 setInterval(updateTimer, 1000);
 updateTimer();
+
+const ticketForm = document.getElementById("ticket-form");
+
+if (ticketForm) {
+	ticketForm.addEventListener("submit", (e) => {
+		e.preventDefault();
+
+		const btn = ticketForm.querySelector(".btn-submit");
+		const input = ticketForm.querySelector(".signup-input");
+
+		const originalText = btn.innerText;
+		btn.innerText = "PROCESSING...";
+		btn.style.opacity = "0.7";
+
+		setTimeout(() => {
+			btn.innerText = "ACCESS GRANTED";
+			btn.style.background = "var(--accent-cyan)";
+			btn.style.opacity = "1";
+			input.value = "";
+			input.placeholder = "SEE YOU IN 2026";
+		}, 1500);
+	});
+}
