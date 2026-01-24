@@ -20,11 +20,11 @@ if (targetText) {
 	const originalString = targetText.innerText;
 	targetText.innerHTML = originalString
 		.split("")
-		.map((char) => {
-			return char === " "
+		.map((char) =>
+			char === " "
 				? `<span class="char">&nbsp;</span>`
-				: `<span class="char font-1">${char}</span>`;
-		})
+				: `<span class="char font-1">${char}</span>`,
+		)
 		.join("");
 
 	const chars = document.querySelectorAll(".char");
@@ -48,6 +48,7 @@ gsap.from(".hero-sub", {
 	delay: 0.5,
 	ease: "power3.out",
 });
+
 gsap.from(".countdown", {
 	y: 20,
 	opacity: 0,
@@ -56,7 +57,6 @@ gsap.from(".countdown", {
 	ease: "power3.out",
 });
 
-// --- 2. MINOR ARTISTS (Infinite Scroll Loop) ---
 const minorTrack = document.getElementById("minor-track");
 
 if (minorTrack) {
@@ -75,20 +75,17 @@ if (minorTrack) {
 			)
 			.join("");
 
-	// Inject cards TWICE to create the seamless loop illusion
 	minorTrack.innerHTML =
 		generateMinorCards(minorArtists) + generateMinorCards(minorArtists);
 
-	// GSAP: Move the track infinitely to the left
-	const loop = gsap.to(minorTrack, {
-		xPercent: -50, // Move exactly half the width (the length of one set)
+	gsap.to(minorTrack, {
+		xPercent: -50,
 		ease: "none",
-		duration: 30, // Adjust for speed
+		duration: 30,
 		repeat: -1,
 	});
 }
 
-// --- 3. HEADLINERS (Cinematic Render) ---
 const headlinerGrid = document.getElementById("headliner-grid");
 
 if (headlinerGrid) {
@@ -96,11 +93,15 @@ if (headlinerGrid) {
 		.map(
 			(artist) => `
         <article class="headliner-card">
-            <video class="headliner-bg-video" autoplay muted loop playsinline>
+            <video 
+                class="headliner-bg-video" 
+                autoplay muted loop playsinline 
+                preload="none"
+                poster="${artist.portrait}"
+            >
                 <source src="${artist.video}" type="video/mp4">
             </video>
             <div class="headliner-content">
-                <img src="${artist.portrait}" alt="${artist.name}" class="headliner-portrait">
                 <h3 class="headliner-name">${artist.name}</h3>
             </div>
         </article>
@@ -120,7 +121,6 @@ gsap.from(".mission-section .mission-grid", {
 	},
 });
 
-// 2. Hype Section (Only target the grid inside hype-section)
 gsap.from(".hype-section .mission-grid", {
 	y: 50,
 	opacity: 0,
@@ -132,7 +132,6 @@ gsap.from(".hype-section .mission-grid", {
 	},
 });
 
-// 3. Headliners
 gsap.utils.toArray(".headliner-card").forEach((card) => {
 	gsap.from(card.querySelector(".headliner-content"), {
 		y: 100,
@@ -148,14 +147,12 @@ gsap.utils.toArray(".headliner-card").forEach((card) => {
 
 console.log("🌸 SUPER BLOOM: SYSTEM ONLINE");
 
-// --- 4. COUNTDOWN TIMER ---
 const targetDate = new Date("December 31, 2026 00:00:00").getTime();
 
 const updateTimer = () => {
 	const now = new Date().getTime();
 	const distance = targetDate - now;
 
-	// Time calculations
 	const days = Math.floor(distance / (1000 * 60 * 60 * 24));
 	const hours = Math.floor(
 		(distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
@@ -163,10 +160,8 @@ const updateTimer = () => {
 	const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 	const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-	// Helper to add leading zeros (e.g. "9" -> "09")
 	const format = (num) => (num < 10 ? `0${num}` : num);
 
-	// Inject into DOM (Check if elements exist first)
 	if (document.getElementById("days")) {
 		document.getElementById("days").innerText = days;
 		document.getElementById("hours").innerText = format(hours);
@@ -175,6 +170,5 @@ const updateTimer = () => {
 	}
 };
 
-// Run immediately, then every second
 setInterval(updateTimer, 1000);
 updateTimer();

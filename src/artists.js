@@ -12,10 +12,9 @@ export const minorArtists = [
 			"https://c.saavncdn.com/artists/Nucleya_002_20241118064538_500x500.jpg",
 	},
 	{
-		name: "NEHA KAKKAR",
-		genre: "POP",
-		image:
-			"https://c.saavncdn.com/artists/Neha_Kakkar_007_20241212115832_500x500.jpg",
+		name: "RAJA KUMARI",
+		genre: "HIP-HOP PRINCESS",
+		image: "https://i.scdn.co/image/ab6761610000e5eb727df9daec6c6e9566696ab2",
 	},
 	{
 		name: "DIVINE",
