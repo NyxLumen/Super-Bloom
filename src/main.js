@@ -41,7 +41,6 @@ if (targetText) {
 	}, 100);
 }
 
-// GSAP: Reveal Subtitle only
 gsap.from(".hero-sub", {
 	y: 20,
 	opacity: 0,
