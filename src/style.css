@@ -31,6 +31,59 @@ body {
 	background-image: url("https://grainy-gradients.vercel.app/noise.svg");
 }
 
+/* The native scrollbar is hidden, but it is still what scrolls the page — the
+   pink pill below is only an indicator drawn on top of it. Native customisation
+   (::-webkit-scrollbar) can't produce a detached pill: it always reserves a
+   layout gutter and can't float over the content, so it's suppressed and the
+   indicator is positioned by script instead. */
+html {
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+	display: none;
+}
+
+/* Fixed to the viewport rather than the document, so it never contributes to
+   the scrollable width and cannot introduce horizontal overflow. */
+.scroll-pill {
+	position: fixed;
+	top: 0;
+	right: 3px;
+	width: 5px;
+	height: 80px;
+	border-radius: 999px;
+	background: var(--accent-pink);
+	z-index: 1200;
+	/* Revealed by script; stays hidden if the script never runs. */
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.3s ease;
+	will-change: transform;
+}
+
+/* A 5px target is only worth grabbing with a fine pointer. On touch the pill
+   stays a pure indicator, so it can never intercept a scroll gesture. */
+@media (hover: hover) and (pointer: fine) {
+	.scroll-pill {
+		pointer-events: auto;
+		cursor: grab;
+		transition:
+			opacity 0.3s ease,
+			width 0.18s ease;
+	}
+
+	.scroll-pill:hover,
+	.scroll-pill.is-dragging {
+		width: 7px;
+	}
+
+	.scroll-pill.is-dragging {
+		cursor: grabbing;
+	}
+}
+
 .nav-header {
 	position: fixed;
 	top: 0;
@@ -166,22 +219,32 @@ body {
 	z-index: 2;
 }
 
-/* Decorative flowers framing the hero.
-   The silhouette is masked straight from /flower.svg, so the supplied
-   asset stays the shape while the fill comes from the brand palette. */
+/* Decorative flowers framing the hero. Each slot is a three-level stack so no
+   property is ever driven by two tweens at once:
+     .hero-flower         position on an edge + base opacity  (JS: left / top / opacity)
+     .hero-flower__float  the slow ambient drift              (JS: y / x / rotation / scale)
+     .hero-flower__layer  one flower variant                  (JS: cross-fade, size, angle)
+   The silhouette is masked from an SVG in /public, so the supplied asset stays
+   the shape while --flower-color supplies the brand colour. */
 .hero-flower {
 	position: absolute;
+	left: 0;
+	top: 0;
 	z-index: 1;
+	/* The largest a flower ever gets; each state scales down from here. */
+	width: clamp(320px, 29vw, 440px);
 	aspect-ratio: 1;
 	pointer-events: none;
-	will-change: transform;
 	/* GSAP animates this in; keeps the flowers hidden if JS never runs. */
 	opacity: 0;
 }
 
-/* Each slot stacks two layers so one variant can cross-fade into the next
-   while the outgoing one is still leaving. The silhouette is always masked
-   from an SVG in /public; JS swaps --flower-color and the mask image. */
+.hero-flower__float {
+	position: absolute;
+	inset: 0;
+	will-change: transform;
+}
+
 .hero-flower__layer {
 	position: absolute;
 	inset: 0;
@@ -190,25 +253,6 @@ body {
 	mask: url("/flower.svg") no-repeat center / contain;
 	will-change: transform, opacity;
 	opacity: 0;
-}
-
-.hero-flower--left {
-	width: clamp(320px, 30vw, 440px);
-	left: -120px;
-	bottom: -150px;
-}
-
-.hero-flower--right {
-	width: clamp(260px, 22vw, 320px);
-	top: -80px;
-	right: -90px;
-}
-
-/* Secondary flower: smaller, heavily cropped, only rises in some states. */
-.hero-flower--accent {
-	width: 190px;
-	right: -95px;
-	bottom: -85px;
 }
 
 .loki-text {
@@ -713,7 +757,7 @@ body {
 	}
 
 	.nav-header::before {
-		height: 190px;
+		height: 140px;
 	}
 
 	.nav-container {
@@ -746,22 +790,8 @@ body {
 		padding: 100px 15px 40px;
 	}
 
-	.hero-flower--left {
-		width: 200px;
-		left: -95px;
-		bottom: -105px;
-	}
-
-	.hero-flower--right {
-		width: 134px;
-		top: 84px;
-		right: -70px;
-	}
-
-	.hero-flower--accent {
-		width: 105px;
-		right: -55px;
-		bottom: -50px;
+	.hero-flower {
+		width: 205px;
 	}
 
 	.loki-text {
@@ -917,7 +947,7 @@ body {
 	}
 
 	.nav-header::before {
-		height: 190px;
+		height: 140px;
 	}
 
 	.nav-container {
@@ -940,22 +970,8 @@ body {
 		padding: 110px 20px 50px;
 	}
 
-	.hero-flower--left {
+	.hero-flower {
 		width: 250px;
-		left: -110px;
-		bottom: -125px;
-	}
-
-	.hero-flower--right {
-		width: 140px;
-		top: 80px;
-		right: -80px;
-	}
-
-	.hero-flower--accent {
-		width: 130px;
-		right: -65px;
-		bottom: -60px;
 	}
 
 	.loki-text {
@@ -1076,22 +1092,8 @@ body {
 		padding: 130px 30px 70px;
 	}
 
-	.hero-flower--left {
-		width: 310px;
-		left: -130px;
-		bottom: -150px;
-	}
-
-	.hero-flower--right {
-		width: 240px;
-		top: -75px;
-		right: -95px;
-	}
-
-	.hero-flower--accent {
-		width: 150px;
-		right: -75px;
-		bottom: -70px;
+	.hero-flower {
+		width: clamp(280px, 33vw, 370px);
 	}
 
 	.loki-text {
