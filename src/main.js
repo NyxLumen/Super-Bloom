@@ -95,6 +95,23 @@ if (heroFlowerPrimary && heroFlowerSecondary && heroFlowerTertiary) {
 		bottomCenter: { left: 50, top: 104 },
 	};
 
+	/* A floor on a state's effective scale, so a small accent flower still reads
+	   as a deliberate graphic element instead of a speck that disappears into
+	   the background. Only sub-floor requests are lifted; everything above is
+	   left exactly as authored, so the size hierarchy between the larger states
+	   is untouched and the flowers still visibly change size across the cycle.
+	   Resolved once, here, so every consumer downstream — the intro, each morph,
+	   the ambient drift and the reduced-motion park — reads the same value. */
+	const MIN_SCALE = 0.6;
+
+	const withScaleFloor = (state) =>
+		Object.fromEntries(
+			Object.entries(state).map(([slotName, spec]) => [
+				slotName,
+				{ ...spec, scale: Math.max(spec.scale, MIN_SCALE) },
+			]),
+		);
+
 	/* variant indexes FLOWER_VARIANTS, scale is relative to the slot's base
 	   width, rotation is the resting angle. Between them the states vary
 	   position, crop, size, angle, variant, colour and flower count. */
@@ -209,7 +226,7 @@ if (heroFlowerPrimary && heroFlowerSecondary && heroFlowerTertiary) {
 				rotation: 24,
 			},
 		},
-	];
+	].map(withScaleFloor);
 
 	/* The navigation's black atmosphere is taller on small screens (190px) while
 	   the flowers there are far smaller, so the top edges need pushing down or
