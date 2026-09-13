@@ -57,6 +57,83 @@ gsap.from(".countdown", {
 	ease: "power3.out",
 });
 
+const heroFlowerLeft = document.querySelector(".hero-flower--left");
+const heroFlowerRight = document.querySelector(".hero-flower--right");
+
+if (heroFlowerLeft && heroFlowerRight) {
+	const startAmbientDrift = () => {
+		gsap.to(heroFlowerLeft, {
+			yPercent: -4,
+			scale: 1.05,
+			duration: 11,
+			ease: "sine.inOut",
+			repeat: -1,
+			yoyo: true,
+		});
+
+		gsap.to(heroFlowerLeft, {
+			xPercent: 1.5,
+			rotation: "-=5",
+			duration: 15,
+			ease: "sine.inOut",
+			repeat: -1,
+			yoyo: true,
+		});
+
+		gsap.to(heroFlowerRight, {
+			yPercent: 5,
+			scale: 1.04,
+			duration: 13,
+			ease: "sine.inOut",
+			repeat: -1,
+			yoyo: true,
+		});
+
+		gsap.to(heroFlowerRight, {
+			xPercent: -2,
+			rotation: "+=7",
+			duration: 17,
+			ease: "sine.inOut",
+			repeat: -1,
+			yoyo: true,
+		});
+	};
+
+	const flowerIntro = gsap.timeline({
+		delay: 0.15,
+		defaults: { ease: "power4.out" },
+		onComplete: startAmbientDrift,
+	});
+
+	flowerIntro
+		.fromTo(
+			heroFlowerLeft,
+			{ xPercent: -55, yPercent: 60, rotation: -70, scale: 0.5, opacity: 0 },
+			{
+				xPercent: 0,
+				yPercent: 0,
+				rotation: -14,
+				scale: 1,
+				opacity: 0.9,
+				duration: 1.9,
+			},
+			0,
+		)
+		.fromTo(
+			heroFlowerRight,
+			{ xPercent: 60, yPercent: -55, rotation: 65, scale: 0.5, opacity: 0 },
+			{
+				xPercent: 0,
+				yPercent: 0,
+				rotation: 18,
+				scale: 1,
+				opacity: 0.85,
+				duration: 2.1,
+			},
+			0.15,
+		);
+}
+
 const minorTrack = document.getElementById("minor-track");
 
 if (minorTrack) {
