@@ -59,8 +59,123 @@ gsap.from(".countdown", {
 
 const heroFlowerLeft = document.querySelector(".hero-flower--left");
 const heroFlowerRight = document.querySelector(".hero-flower--right");
+const heroFlowerAccent = document.querySelector(".hero-flower--accent");
 
-if (heroFlowerLeft && heroFlowerRight) {
+if (heroFlowerLeft && heroFlowerRight && heroFlowerAccent) {
+	/* Flower variants live in /public. Only a few are on stage at once; the
+	   composition drifts between states so the framing keeps evolving. */
+	const FLOWER_VARIANTS = [
+		"flower.svg",
+		"flower-rose.svg",
+		"flower-with-line.svg",
+		"flower-with-rounded-petals.svg",
+	];
+
+	const ACID = "var(--accent-acid)";
+	const PINK = "var(--accent-pink)";
+
+	// [variantIndex, colour] per anchor. The small bottom-right flower is
+	// secondary, so it only rises in some states.
+	const FLOWER_STATES = [
+		{ left: [0, ACID], right: [0, PINK], accent: null },
+		{ left: [1, PINK], right: [2, ACID], accent: [3, ACID] },
+		{ left: [3, ACID], right: [1, PINK], accent: null },
+		{ left: [2, PINK], right: [3, ACID], accent: [0, PINK] },
+		{ left: [0, PINK], right: [1, ACID], accent: null },
+	];
+
+	const ACCENT_OPACITY = 0.75;
+	const DWELL_MIN = 6.5;
+	const DWELL_MAX = 9.5;
+	const MORPH_MIN = 1.25;
+	const MORPH_MAX = 1.7;
+
+	const randomBetween = (min, max) => min + Math.random() * (max - min);
+
+	const applyVariant = (layer, [variant, colour]) => {
+		layer.style.setProperty("--flower-color", colour);
+		const src = `url("/${FLOWER_VARIANTS[variant]}")`;
+		layer.style.maskImage = src;
+		layer.style.webkitMaskImage = src;
+	};
+
+	const createSlot = (element, initial) => {
+		const layers = Array.from(
+			element.querySelectorAll(".hero-flower__layer"),
+		);
+		applyVariant(layers[0], initial);
+		gsap.set(layers[0], { opacity: 1, scale: 1, rotation: 0 });
+		gsap.set(layers[1], { opacity: 0, scale: 1, rotation: 0 });
+		return { element, layers, active: layers[0] };
+	};
+
+	// Cross-fade a slot onto its next variant: the outgoing flower drifts and
+	// rotates out while the incoming one fades up underneath it, so the two
+	// overlap briefly instead of one replacing the other outright.
+	const morphSlot = (slot, next) => {
+		const incoming = slot.active === slot.layers[0] ? slot.layers[1] : slot.layers[0];
+		const outgoing = slot.active;
+
+		applyVariant(incoming, next);
+
+		// A previous cross-fade may still be in flight on these two layers.
+		gsap.killTweensOf([incoming, outgoing]);
+
+		const duration = randomBetween(MORPH_MIN, MORPH_MAX);
+
+		gsap.to(outgoing, {
+			opacity: 0,
+			scale: 1.06,
+			rotation: 6,
+			duration,
+			ease: "power2.inOut",
+		});
+
+		// fromTo resets both ends every time, so repeated states can't drift.
+		// The incoming starts almost immediately and finishes sooner than the
+		// outgoing, so the two overlap without dipping through a dim trough.
+		gsap.fromTo(
+			incoming,
+			{ opacity: 0, scale: 0.93, rotation: -5 },
+			{
+				opacity: 1,
+				scale: 1,
+				rotation: 0,
+				duration: duration * 0.8,
+				delay: duration * 0.12,
+				ease: "power2.inOut",
+			},
+		);
+
+		slot.active = incoming;
+	};
+
+	const showAccent = (slot, next) => {
+		// Kill only the opacity tween; the infinite ambient drift stays put.
+		gsap.killTweensOf(slot.element, "opacity");
+		gsap.to(slot.element, {
+			opacity: ACCENT_OPACITY,
+			duration: 1.4,
+			ease: "power2.inOut",
+		});
+		morphSlot(slot, next);
+	};
+
+	const hideAccent = (slot) => {
+		gsap.killTweensOf(slot.element, "opacity");
+		gsap.to(slot.element, {
+			opacity: 0,
+			duration: 1.2,
+			ease: "power2.inOut",
+		});
+	};
+
+	const slots = {
+		left: createSlot(heroFlowerLeft, FLOWER_STATES[0].left),
+		right: createSlot(heroFlowerRight, FLOWER_STATES[0].right),
+		accent: createSlot(heroFlowerAccent, [0, ACID]),
+	};
+
 	const startAmbientDrift = () => {
 		gsap.to(heroFlowerLeft, {
 			yPercent: -4,
@@ -97,12 +212,48 @@ if (heroFlowerLeft && heroFlowerRight) {
 			repeat: -1,
 			yoyo: true,
 		});
+
+		gsap.to(heroFlowerAccent, {
+			yPercent: -6,
+			rotation: 9,
+			duration: 14,
+			ease: "sine.inOut",
+			repeat: -1,
+			yoyo: true,
+		});
+	};
+
+	// Each step arms exactly one follow-up, so transitions never stack up.
+	const startStateCycle = () => {
+		let index = 0;
+
+		const step = () => {
+			index = (index + 1) % FLOWER_STATES.length;
+			const state = FLOWER_STATES[index];
+
+			morphSlot(slots.left, state.left);
+			morphSlot(slots.right, state.right);
+
+			if (state.accent) {
+				showAccent(slots.accent, state.accent);
+			} else {
+				hideAccent(slots.accent);
+			}
+
+			// Fresh dwell each time keeps the rhythm from feeling metronomic.
+			gsap.delayedCall(randomBetween(DWELL_MIN, DWELL_MAX), step);
+		};
+
+		gsap.delayedCall(randomBetween(DWELL_MIN, DWELL_MAX), step);
 	};
 
 	const flowerIntro = gsap.timeline({
 		delay: 0.15,
 		defaults: { ease: "power4.out" },
-		onComplete: startAmbientDrift,
+		onComplete: () => {
+			startAmbientDrift();
+			startStateCycle();
+		},
 	});
 
 	flowerIntro

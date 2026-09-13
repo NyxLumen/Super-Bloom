@@ -174,11 +174,21 @@ body {
 	z-index: 1;
 	aspect-ratio: 1;
 	pointer-events: none;
-	background-color: var(--accent-acid);
-	-webkit-mask: url("/flower.svg") no-repeat center / contain;
-	mask: url("/flower.svg") no-repeat center / contain;
 	will-change: transform;
 	/* GSAP animates this in; keeps the flowers hidden if JS never runs. */
+	opacity: 0;
+}
+
+/* Each slot stacks two layers so one variant can cross-fade into the next
+   while the outgoing one is still leaving. The silhouette is always masked
+   from an SVG in /public; JS swaps --flower-color and the mask image. */
+.hero-flower__layer {
+	position: absolute;
+	inset: 0;
+	background-color: var(--flower-color, var(--accent-acid));
+	-webkit-mask: url("/flower.svg") no-repeat center / contain;
+	mask: url("/flower.svg") no-repeat center / contain;
+	will-change: transform, opacity;
 	opacity: 0;
 }
 
@@ -192,7 +202,13 @@ body {
 	width: clamp(260px, 22vw, 320px);
 	top: -80px;
 	right: -90px;
-	background-color: var(--accent-pink);
+}
+
+/* Secondary flower: smaller, heavily cropped, only rises in some states. */
+.hero-flower--accent {
+	width: 190px;
+	right: -95px;
+	bottom: -85px;
 }
 
 .loki-text {
@@ -742,6 +758,12 @@ body {
 		right: -70px;
 	}
 
+	.hero-flower--accent {
+		width: 105px;
+		right: -55px;
+		bottom: -50px;
+	}
+
 	.loki-text {
 		font-size: 10vw;
 		display: flex;
@@ -930,6 +952,12 @@ body {
 		right: -80px;
 	}
 
+	.hero-flower--accent {
+		width: 130px;
+		right: -65px;
+		bottom: -60px;
+	}
+
 	.loki-text {
 		font-size: 10vw;
 	}
@@ -1058,6 +1086,12 @@ body {
 		width: 240px;
 		top: -75px;
 		right: -95px;
+	}
+
+	.hero-flower--accent {
+		width: 150px;
+		right: -75px;
+		bottom: -70px;
 	}
 
 	.loki-text {
